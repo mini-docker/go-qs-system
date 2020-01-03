@@ -5,11 +5,11 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/pingguoxueyuan/gostudy/logger"
-	"github.com/pingguoxueyuan/gostudy/mercury/common"
-	"github.com/pingguoxueyuan/gostudy/mercury/dal/db"
-	"github.com/pingguoxueyuan/gostudy/mercury/id_gen"
-	"github.com/pingguoxueyuan/gostudy/mercury/util"
+	"../../logger"
+	"../../common"
+	"../../dal/db"
+	"../../id_gen"
+	"../../util"
 )
 
 const (

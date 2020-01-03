@@ -1,13 +1,12 @@
 package category
 
 import (
-	"strconv"
-
+	"../../common"
+	"../../dal/db"
+	"../../logger"
+	"../../util"
 	"github.com/gin-gonic/gin"
-	"github.com/pingguoxueyuan/gostudy/logger"
-	"github.com/pingguoxueyuan/gostudy/mercury/common"
-	"github.com/pingguoxueyuan/gostudy/mercury/dal/db"
-	"github.com/pingguoxueyuan/gostudy/mercury/util"
+	"strconv"
 )
 
 func GetCategoryListHandle(c *gin.Context) {

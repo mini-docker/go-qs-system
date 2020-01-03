@@ -2,6 +2,11 @@ package main
 
 import (
 	"../go-qs-system/controller/account"
+	"../go-qs-system/controller/answer"
+	"../go-qs-system/controller/category"
+	"../go-qs-system/controller/comment"
+	"../go-qs-system/controller/favorite"
+	"../go-qs-system/controller/question"
 	"../go-qs-system/dal/db"
 	"../go-qs-system/filter"
 	"../go-qs-system/id_gen"
@@ -77,8 +82,27 @@ func main()  {
 	initTemplate(router)
 	router.POST("/api/user/register", account.RegisterHandle)
 	router.POST("/api/user/login", account.LoginHandle)
+	router.GET("/api/category/list", category.GetCategoryListHandle)
+	router.POST("/api/ask/submit", maccount.AuthMiddleware, question.QuestionSubmitHandle)
+	router.GET("/api/question/list", category.GetQuestionListHandle)
+	router.GET("/api/question/detail", question.QuestionDetailHandle)
+	router.GET("/api/answer/list", answer.AnswerListHandle)
 
+	//评论模块
+	//commentGroup := router.Group("/api/comment/", maccount.AuthMiddleware)
+	commentGroup := router.Group("/api/comment/")
+	commentGroup.POST("/post_comment", comment.PostCommentHandle)
+	commentGroup.POST("/post_reply", comment.PostReplyHandle)
+	commentGroup.GET("/list", comment.CommentListHandle)
+	commentGroup.GET("/reply_list", comment.ReplyListHandle)
+	commentGroup.POST("/like", comment.LikeHandle)
 
+	//收藏模块路由
+	favoriteGroup := router.Group("/api/favorite/")
+	favoriteGroup.POST("/add_dir", favorite.AddDirHandle)
+	favoriteGroup.POST("/add", favorite.AddFavoriteHandle)
+	favoriteGroup.GET("/dir_list", favorite.DirListHandle)
+	favoriteGroup.GET("/list", favorite.FavoriteListHandle)
 
 
 	router.Run(":9090")

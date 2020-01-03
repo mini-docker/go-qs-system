@@ -2,10 +2,10 @@ package answer
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/pingguoxueyuan/gostudy/logger"
-	"github.com/pingguoxueyuan/gostudy/mercury/common"
-	"github.com/pingguoxueyuan/gostudy/mercury/dal/db"
-	"github.com/pingguoxueyuan/gostudy/mercury/util"
+	"../../logger"
+	"../../common"
+	"../../dal/db"
+	"../../util"
 )
 
 func AnswerListHandle(c *gin.Context) {
