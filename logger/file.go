@@ -16,7 +16,7 @@ type FileLogger struct {
 	file          *os.File
 	warnFile      *os.File
 	LogDataChan   chan *LogData
-	logSplitType  int
+	logSplitType  int	// 按小时或者大小进行切分日志
 	logSplitSize  int64
 	lastSplitHour int
 }
@@ -57,6 +57,7 @@ func NewFileLogger(config map[string]string) (log LogInterface, err error) {
 				logSplitSizeStr = "104857600"
 			}
 
+			// str转换为int类型 十进制 64位
 			logSplitSize, err = strconv.ParseInt(logSplitSizeStr, 10, 64)
 			if err != nil {
 				logSplitSize = 104857600
@@ -90,6 +91,7 @@ func NewFileLogger(config map[string]string) (log LogInterface, err error) {
 func (f *FileLogger) Init() {
 
 	filename := fmt.Sprintf("%s/%s.log", f.logPath, f.logName)
+	//openFile 没有文件就创建文件，最后写入，只写
 	file, err := os.OpenFile(filename, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0755)
 	if err != nil {
 		panic(fmt.Sprintf("open faile %s failed, err:%v", filename, err))
@@ -120,6 +122,7 @@ func (f *FileLogger) splitFileHour(warnFile bool) {
 	var filename string
 
 	if warnFile {
+		// %04d%02d%02d%02d => 2020020202
 		backupFilename = fmt.Sprintf("%s/%s.log.wf_%04d%02d%02d%02d",
 			f.logPath, f.logName, now.Year(), now.Month(), now.Day(), f.lastSplitHour)
 
@@ -215,7 +218,7 @@ func (f *FileLogger) writeLogBackground() {
 		}
 
 		f.checkSplitFile(logData.WarnAndFatal)
-
+		// 将数据写入指定文件 并 按照格式写入
 		fmt.Fprintf(file, "%s %s (%s:%s:%d) %s\n", logData.TimeStr,
 			logData.LevelStr, logData.Filename, logData.FuncName, logData.LineNo, logData.Message)
 	}
@@ -235,6 +238,7 @@ func (f *FileLogger) Debug(format string, args ...interface{}) {
 
 	logData := writeLog(LogLevelDebug, format, args...)
 	select {
+	// 如果chan满了 就走default分支,否则走case
 	case f.LogDataChan <- logData:
 	default:
 	}

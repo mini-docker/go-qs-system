@@ -1,5 +1,6 @@
 package logger
 
+// 公用接口，所调用对象皆可使用实例
 type LogInterface interface {
 	Init()
 	SetLevel(level int)

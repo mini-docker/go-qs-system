@@ -41,6 +41,7 @@ func (c *ConsoleLogger) Debug(format string, args ...interface{}) {
 	}
 
 	logData := writeLog(LogLevelDebug, format, args...)
+	// 写到控制台 os.Stdout
 	fmt.Fprintf(os.Stdout, "%s %s (%s:%s:%d) %s\n", logData.TimeStr,
 		logData.LevelStr, logData.Filename, logData.FuncName, logData.LineNo, logData.Message)
 }

@@ -83,6 +83,7 @@ func main()  {
 	router.POST("/api/user/register", account.RegisterHandle)
 	router.POST("/api/user/login", account.LoginHandle)
 	router.GET("/api/category/list", category.GetCategoryListHandle)
+	// 提交问题需要鉴权
 	router.POST("/api/ask/submit", maccount.AuthMiddleware, question.QuestionSubmitHandle)
 	router.GET("/api/question/list", category.GetQuestionListHandle)
 	router.GET("/api/question/detail", question.QuestionDetailHandle)

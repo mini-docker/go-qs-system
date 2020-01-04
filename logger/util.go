@@ -14,7 +14,7 @@ type LogData struct {
 	Filename     string
 	FuncName     string
 	LineNo       int
-	WarnAndFatal bool
+	WarnAndFatal bool // 区分警告log文件还是正常log文件
 }
 
 //util.go 10
